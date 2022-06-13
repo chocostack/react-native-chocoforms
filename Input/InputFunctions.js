@@ -1,6 +1,6 @@
 ﻿import TInputFunctions from './TInputFunctions';
-import * as GeneralFunctions from './../../../GeneralFunctions';
-import AppConfig from '../../../AppConfig';
+
+import ChocoConfig from '../ChocoConfig';
 
 const emailSpecialChars = "._-+";
 const numberChars = "0123456789";
@@ -16,7 +16,7 @@ export function validateInput(value, validations, controls = false) {
         if (validations.required) {
             if (value == "") {
                 Response.Validated = false;
-                Response.Msg = TInputFunctions[AppConfig.lang].INPUT_REQUIRED;
+                Response.Msg = TInputFunctions[ChocoConfig.lang].INPUT_REQUIRED;
             }
         }
     } else {
@@ -28,7 +28,7 @@ export function validateInput(value, validations, controls = false) {
         if (validations.required) {
             if (value == "") {
                 Response.Validated = false;
-                Response.Msg = TInputFunctions[AppConfig.lang].INPUT_REQUIRED;
+                Response.Msg = TInputFunctions[ChocoConfig.lang].INPUT_REQUIRED;
             }
         }
 
@@ -47,7 +47,7 @@ export function validateInput(value, validations, controls = false) {
                 Response = validatePhoneNumber(value);
 
                 if (!Response.Validated) {
-                    Response.Msg = TInputFunctions[AppConfig.lang].INVALID_EMAIL_OR_PHONE;
+                    Response.Msg = TInputFunctions[ChocoConfig.lang].INVALID_EMAIL_OR_PHONE;
                 }
             }
         }
@@ -59,7 +59,7 @@ export function validateInput(value, validations, controls = false) {
                 const strChar = value.charAt(i);
                 if (AllowedCharacters.indexOf(strChar) == -1) {
                     Response.Validated = false;
-                    Response.Msg = TInputFunctions[AppConfig.lang].ALLOWED_CHARACTERS;
+                    Response.Msg = TInputFunctions[ChocoConfig.lang].ALLOWED_CHARACTERS;
                 }
             }
         }
@@ -83,7 +83,7 @@ export function validateInput(value, validations, controls = false) {
 
             if (!hasUppercase || !hasNumber) {
                 Response.Validated = false;
-                Response.Msg = TInputFunctions[AppConfig.lang].PASSWORD;
+                Response.Msg = TInputFunctions[ChocoConfig.lang].PASSWORD;
             }
 
         }
@@ -91,21 +91,21 @@ export function validateInput(value, validations, controls = false) {
         if (validations.minLength != undefined) {
             if (value.length < validations.minLength) {
                 Response.Validated = false;
-                Response.Msg = TInputFunctions[AppConfig.lang].MINIMUN_CHARACTERS.replace("@", validations.minLength);
+                Response.Msg = TInputFunctions[ChocoConfig.lang].MINIMUN_CHARACTERS.replace("@", validations.minLength);
             }
         }
 
         if (validations.maxLength != undefined) {
             if (value.length > validations.maxLength) {
                 Response.Validated = false;
-                Response.Msg = TInputFunctions[AppConfig.lang].MAXIMUN_CHARACTERS.replace("@", validations.maxLength);
+                Response.Msg = TInputFunctions[ChocoConfig.lang].MAXIMUN_CHARACTERS.replace("@", validations.maxLength);
             }
         }
 
         if (validations.equalsTo && controls) {
             if (value !== controls[validations.equalsTo].value) {
                 Response.Validated = false;
-                Response.Msg = TInputFunctions[AppConfig.lang].EQUALS_TO.replace("@", validations.equalsToLabel);
+                Response.Msg = TInputFunctions[ChocoConfig.lang].EQUALS_TO.replace("@", validations.equalsToLabel);
             }
         }
 
@@ -117,7 +117,7 @@ export function validateInput(value, validations, controls = false) {
 
             if (!value.match(regex)) {
                 Response.Validated = false;
-                Response.Msg = TInputFunctions[AppConfig.lang].INVALID_URL;
+                Response.Msg = TInputFunctions[ChocoConfig.lang].INVALID_URL;
             }
         }
     }
@@ -216,7 +216,7 @@ function validateEmail(value) {
     }
 
     if (!Response.Validated) {
-        Response.Msg = TInputFunctions[AppConfig.lang].INVALID_EMAIL;
+        Response.Msg = TInputFunctions[ChocoConfig.lang].INVALID_EMAIL;
     }
 
     return Response;
@@ -326,7 +326,7 @@ function validatePhoneNumber(value) {
     }
 
     if (!Response.Validated) {
-        Response.Msg = TInputFunctions[AppConfig.lang].INVALID_PHONE_NUMBER;
+        Response.Msg = TInputFunctions[ChocoConfig.lang].INVALID_PHONE_NUMBER;
     }
 
     return Response;

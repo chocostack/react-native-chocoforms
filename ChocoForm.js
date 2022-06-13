@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import ChocoConfig from './ChocoConfig';
 
 import Input from './Input/Input';
 
@@ -8,6 +9,8 @@ import * as InputFunctions from './Input/InputFunctions';
 const ChocoForm = (props) => {
     const formElementsArray = [];
     let generalError = null;
+
+    ChocoConfig.lang = props.lang;
 
     if (props.form.generalError && props.form.generalError.show) {
         generalError = (<Text style={{ fontSize: 18, color: "red", marginBottom: 15, textAlign: "center" }}>{props.form.generalError.text}</Text>)
@@ -26,7 +29,6 @@ const ChocoForm = (props) => {
     const form = formElementsArray.map(formElement => (
         <Input
             key={formElement.id}
-            lang={props.lang}
             inputStyle={props.inputStyle}
             inputStyleTouched={props.inputStyleTouched}
             inputStyleBlured={props.inputStyleBlured}

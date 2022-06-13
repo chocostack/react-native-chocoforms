@@ -1,7 +1,7 @@
 {
   "name": "react-native-chocoforms",
-  "version": "0.5.1",
-  "description": "",
+  "version": "1.0.0",
+  "description": "A package that aims to speed up form creation in react native",
   "main": "Form.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,13 +11,18 @@
     "url": "git+https://github.com/chocostack/react-native-chocoforms.git"
   },
   "keywords": [
-    "customforms",
-    "form"
+    "custom forms",
+    "form",
+    "form generator"
   ],
   "author": "chocostack",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/chocostack/react-native-chocoforms/issues"
   },
-  "homepage": "https://github.com/chocostack/react-native-chocoforms#readme"
+  "homepage": "https://github.com/chocostack/react-native-chocoforms#readme",
+  "dependencies": {
+    "@chocostack/maskifier": "^1.0.0",
+    "@chocostack/react-native-options-modal": "^1.0.4"
+  }
 }

@@ -1,16 +1,12 @@
 ﻿import React, { useState } from 'react';
-import TAuth from './../../../Translations/Auth/TAuth';
-import { Button, CheckBox, Linking, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
-import Styles from '../../../../Styles';
-import CCText from '../../NativeComponents/CCText';
-import AppConfig from '../../../AppConfig';
+
+import { Linking, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-import PrettyCheckbox from '../Radio/PrettyCheckbox';
-import { mask, MaskedTextInput } from 'react-native-mask-text';
-import CurrencyInput from './CurrencyInput';
-import TimeInput from './TimeInput';
-import OptionModal from '../../Modal/OptionModal';
+;
+import OptionModal from '@chocostack/react-native-options-modal';
+
+import * as MaskFunctions from '@chocostack/maskifier';
 
 const Input = (props) => {
 
@@ -20,14 +16,14 @@ const Input = (props) => {
 
     let inputElement = null;
 
-    let inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC' };
+    let inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', ...props.inputStyle };
 
     if (touched) {
-        inputBorder = Styles.themeInputBorder;
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'blue', ...props.inputStyleTouched };
     }
 
     if (blured) {
-        inputBorder = Styles.secondaryThemeInputBorder;
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'purple', ...props.inputStyleBlured };
     }
 
     let inputStyle = { paddingTop: 0, paddingBottom: 7, ...inputBorder };
@@ -48,25 +44,45 @@ const Input = (props) => {
 
     switch (props.config.elementType) {
         case 'currency':
-            inputElement = <CurrencyInput
-                inputChangedHandler={props.inputChangedHandler}
-                config={props.config}
+            inputElement = <TextInput
+                onChangeText={(text) => {
+                    const event = {
+                        unMaskedValue: MaskFunctions.unMaskMoney(text)
+                    }
+
+                    props.inputChangedHandler(event, props.id);
+                }}
+                onFocus={onFocus} onBlur={onBlur}
                 {...props.config.elementConfig}
+                style={{ fontSize: 20, ...inputStyle }}
+                value={MaskFunctions.maskMoney(props.config.value)}
+                keyboardType="numeric"
             />
             break;
         case 'time':
-            inputElement = <TimeInput
-                inputChangedHandler={props.inputChangedHandler}
-                config={props.config}
-                {...props.config.elementConfig}
-            />
+            inputElement = <TextInput
+                    onChangeText={(text) => {
+                        const event = {
+                            nativeEvent: {
+                                text: text
+                            }
+                        }
+
+                        props.inputChangedHandler(event, props.id);
+                    }}
+                    onFocus={onFocus} onBlur={onBlur}
+                    {...props.config.elementConfig}
+                    style={{ fontSize: 20, ...inputStyle }}
+                    value={MaskFunctions.maskTime(props.config.value)}
+                    keyboardType="numeric"
+                />
             break;
         case 'input':
             inputElement = <TextInput
                 onChange={props.inputChangedHandler}
                 onFocus={onFocus} onBlur={onBlur}
                 {...props.config.elementConfig}
-                style={{ fontSize: 20, ...inputStyle, ...Styles.textColor, ...props.config.style }}
+                style={{ fontSize: 20, ...inputStyle }}
                 value={props.config.value}
             />
             break;
@@ -81,9 +97,9 @@ const Input = (props) => {
                     setIsDatePickerOpen(true);
                 }}>
                     <View style={{ ...inputBorder }}>
-                        <CCText style={{ fontSize: 20, ...inputStyle, borderBottomWidth: 0, ...Styles.textColor, ...props.config.style }}>
+                        <Text style={{ fontSize: 20, ...inputStyle, borderBottomWidth: 0 }}>
                             {props.config.value}
-                        </CCText>
+                        </Text>
                     </View>
                 </TouchableWithoutFeedback>
                 : null }
@@ -115,9 +131,9 @@ const Input = (props) => {
             inputElement = <View>
                 <TouchableWithoutFeedback onPress={toggle}>
                     <View>
-                        <CCText style={{ fontSize: 20, ...inputStyle, ...Styles.textColor, ...props.config.style }}>
+                        <Text style={{ fontSize: 20, ...inputStyle }}>
                             {props.config.text}
-                        </CCText>
+                        </Text>
                     </View>
                 </TouchableWithoutFeedback>
                 <OptionModal
@@ -140,30 +156,11 @@ const Input = (props) => {
                 />
             </View>
             break;
-        case 'tos':
-            inputElement = <View style={{ ...Styles.flexDirectionRow }}>
-                <TouchableWithoutFeedback onPress={props.inputChangedHandler}>
-                    <View style={{ padding: 4, ...Styles.flexDirectionRow }}>
-                        <PrettyCheckbox
-                            selected={props.config.value}
-                        />
-                    </View>
-                </TouchableWithoutFeedback>
-                <CCText style={{ marginLeft: 5, marginTop: 5 }}>
-                    <Text onPress={props.inputChangedHandler}>
-                        {TAuth[AppConfig.lang].TERMS_OF_SERVICE}
-                    </Text>
-                    <Text style={{ ...Styles.themeColor }} onPress={() => Linking.openURL(AppConfig.URL + '/TermsOfService')}>
-                        {TAuth[AppConfig.lang].TERMS_OF_SERVICE_LINK}
-                    </Text>
-                </CCText>
-            </View>
-            break;
     }
 
     return (
         <View>
-            {props.config.label ? <Text style={{ ...Styles.themeColor }}>{props.config.label}</Text> : null}
+            {props.config.label ? <Text style={{ ...props.labelStyle }}>{props.config.label}</Text> : null}
             {inputElement}
             <Text style={{ color: "red" }}>{props.errorMessage}</Text>
         </View>

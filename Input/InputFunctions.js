@@ -12,12 +12,7 @@ export function validateInput(value, validations, controls = false) {
         Msg: ""
     }
     
-    if (validations.tos) {
-        if (!value) {
-            Response.Validated = false;
-            Response.Msg = TInputFunctions[AppConfig.lang].TOS_REQUIRED;
-        }
-    } else if (validations.isDate) {
+    if (validations.isDate) {
         if (validations.required) {
             if (value == "") {
                 Response.Validated = false;
@@ -130,22 +125,11 @@ export function validateInput(value, validations, controls = false) {
     return Response;
 }
 
-export function inputChangedHandler(event, inputIdentifier){
+export function inputChangedHandler(form, event, inputIdentifier){
     let errorMsg = "";
-    let disabled = false;
-    const updatedControls = {
-        ...this.state.form.controls
-    }
-
-    const updatedSaveButton = this.state.form.saveButton ? { ...this.state.form.saveButton } : null;
-
-    let updatedCancelButton = undefined;
-
-    if (this.state.form.cancelButton) {
-        updatedCancelButton = {
-            ...this.state.form.cancelButton
-        }
-    }
+    let isValid = true;
+    const updatedForm = { ...form };
+    const updatedControls = updatedForm.controls;
 
     const updatedControlElement = {
         ...updatedControls[inputIdentifier]
@@ -182,66 +166,15 @@ export function inputChangedHandler(event, inputIdentifier){
         const r = validateInput(updatedControls[key].value, updatedControls[key].validation);
 
         if (!r.Validated) {
-            disabled = true;
+            isValid = false;
         }
     }
 
-    if (updatedSaveButton)
-        updatedSaveButton.disabled = disabled;
+    updatedForm.controls = updatedControls;
+    updatedForm.isValidForm = isValid;
 
-    this.setState({
-        form: {
-            controls: updatedControls,
-            cancelButton: updatedCancelButton,
-            saveButton: updatedSaveButton,
-            generalError: { ...this.state.form.generalError }
-        }
-    });
+    return updatedForm;
 }
-
-export function urlInputChangedHandler(event, inputIdentifier) {
-    let errorMsg = "";
-    let disabled = false;
-
-    const updatedControls = {
-        ...this.state.urlModalForm.controls
-    }
-
-    const updatedControlElement = {
-        ...updatedControls[inputIdentifier]
-    }
-
-    updatedControlElement.value = event.target.value;
-
-    const Response = validateInput(updatedControlElement.value, updatedControlElement.validation, this.state.urlModalForm.controls);
-
-    if (!Response.Validated) {
-        errorMsg = Response.Msg;
-    }
-
-    updatedControlElement.errorMessage = errorMsg;
-
-    updatedControls[inputIdentifier] = updatedControlElement;
-
-
-    for (let key in updatedControls) {
-        const r = validateInput(updatedControls[key].value, updatedControls[key].validation);
-
-        if (!r.Validated) {
-            disabled = true;
-        }
-    }
-
-    this.setState({
-        urlModalForm: {
-            controls: updatedControls,
-            generalError: { ...this.state.urlModalForm.generalError },
-            isVideo: false
-        }
-    });
-}
-
-
 
 /************************************************************************
  * EMAIL VALIDATION

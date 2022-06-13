@@ -33,7 +33,7 @@ const ChocoForm = (props) => {
             inputStyleTouched={props.inputStyleTouched}
             inputStyleBlured={props.inputStyleBlured}
             inputChangedHandler={(event) => {
-                const updatedForm = InputFunctions.inputChangedHandler(form, event, formElement.id);
+                const updatedForm = InputFunctions.inputChangedHandler(props.form, event, formElement.id);
 
                 props.onFormChange(updatedForm);
             }}

@@ -129,7 +129,7 @@ export function inputChangedHandler(form, event, inputIdentifier){
     let errorMsg = "";
     let isValid = true;
     const updatedForm = { ...form };
-    const updatedControls = updatedForm.controls;
+    const updatedControls = { ...updatedForm.controls };
 
     const updatedControlElement = {
         ...updatedControls[inputIdentifier]
@@ -151,7 +151,7 @@ export function inputChangedHandler(form, event, inputIdentifier){
     }
 
 
-    const Response = validateInput(updatedControlElement.value, updatedControlElement.validation, this.state.form.controls);
+    const Response = validateInput(updatedControlElement.value, updatedControlElement.validation, updatedControls);
 
     if (!Response.Validated) {
         errorMsg = Response.Msg;

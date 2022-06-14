@@ -1,5 +1,5 @@
-﻿import React, { useState } from 'react';
-import { Text, View, ActivityIndicator } from 'react-native';
+﻿import React, { Component } from 'react';
+import { Text, View, ActivityIndicator, Modal, ScrollView, TouchableNativeFeedback } from 'react-native';
 import ChocoConfig from './ChocoConfig';
 
 import Input from './Input/Input';

@@ -10,7 +10,8 @@ const ChocoForm = (props) => {
     const formElementsArray = [];
     let generalError = null;
 
-    ChocoConfig.lang = props.lang;
+    if(props.lang)
+        ChocoConfig.lang = props.lang;
 
     if (props.form.generalError && props.form.generalError.show) {
         generalError = (<Text style={{ fontSize: 18, color: "red", marginBottom: 15, textAlign: "center" }}>{props.form.generalError.text}</Text>)

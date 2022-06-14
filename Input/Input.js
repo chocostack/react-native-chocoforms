@@ -137,6 +137,7 @@ const Input = (props) => {
                     </View>
                 </TouchableWithoutFeedback>
                 <OptionModal
+                    title={props.config.label}
                     isVisible={isVisible}
                     toggleModal={toggle}
                     options={props.config.options}

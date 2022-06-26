@@ -150,6 +150,9 @@ export function inputChangedHandler(form, event, inputIdentifier){
         updatedControlElement.value = event.nativeEvent.text;
     }
 
+    if (updatedControlElement.onChangeCopyValueTo) {
+        updatedControls[updatedControlElement.onChangeCopyValueTo].value = updatedControlElement.value;
+    }
 
     const Response = validateInput(updatedControlElement.value, updatedControlElement.validation, updatedControls);
 

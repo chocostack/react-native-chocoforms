@@ -106,6 +106,9 @@ export class FormModal extends Component {
                         paddingBottom: 0
                     }}>
                         <ScrollView keyboardShouldPersistTaps={'always'} style={{ minHeight: 100 }}>
+                            <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                                {this.props.title}
+                            </Text>
                             <ChocoForm
                                 form={this.props.form}
                                 onFormChange={this.props.onFormChange}

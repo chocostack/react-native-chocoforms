@@ -6,11 +6,13 @@ const emailSpecialChars = "._-+";
 const numberChars = "0123456789";
 
 export function validateInput(value, validations, controls = false) {
-
     let Response = {
         Validated: true,
         Msg: ""
     }
+
+    if (!validations)
+        return Response;
     
     if (validations.isDate) {
         if (validations.required) {

@@ -5,7 +5,7 @@ import Modal from "react-native-modal";
 
 import ChocoConfig from './ChocoConfig';
 
-import Input from './Input/Input';
+import { Input as InputComponent } from './Input/Input';
 
 import * as InputFunctions from './Input/InputFunctions';
 
@@ -29,7 +29,7 @@ const ChocoForm = (props) => {
     }
 
     const form = formElementsArray.map(formElement => (
-        <Input
+        <InputComponent
             key={formElement.id}
             inputStyle={props.inputStyle}
             inputStyleTouched={props.inputStyleTouched}
@@ -55,7 +55,7 @@ export default ChocoForm;
 
 const Input = (props) => {
 
-    return <Input
+    return <InputComponent
         key={props.id}
         inputStyle={props.inputStyle}
         inputStyleTouched={props.inputStyleTouched}

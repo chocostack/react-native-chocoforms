@@ -52,7 +52,7 @@ const ChocoForm = (props) => {
 
 export default ChocoForm;
 
-const ChocoInput = (props) => {
+export const ChocoInput = (props) => {
 
     return <Input
         key={props.id}
@@ -67,8 +67,6 @@ const ChocoInput = (props) => {
         config={props.control}
     />;
 }
-
-export default ChocoInput;
 
 export class FormModal extends Component {
 

@@ -24,8 +24,6 @@ const ChocoForm = (props) => {
         formElementsArray.push({
             id: key,
             config: props.form.controls[key],
-            className: props.form.controls[key].className,
-            name: props.form.controls[key].name,
             errorMessage: props.form.controls[key].errorMessage
         });
     }
@@ -54,6 +52,25 @@ const ChocoForm = (props) => {
 }
 
 export default ChocoForm;
+
+const Input = (props) => {
+
+    return <Input
+        key={props.id}
+        inputStyle={props.inputStyle}
+        inputStyleTouched={props.inputStyleTouched}
+        inputStyleBlured={props.inputStyleBlured}
+        inputChangedHandler={(event) => {
+            const updatedForm = InputFunctions.inputChangedHandler(props.form, event, formElement.id);
+
+            props.onFormChange(updatedForm);
+        }}
+        config={props.form.controls[key]}
+        errorMessage={props.form.controls[key].errorMessage}
+    />;
+}
+
+export default Input;
 
 export class FormModal extends Component {
 

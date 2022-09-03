@@ -163,7 +163,7 @@ const Input = (props) => {
         <View>
             {props.config.label ? <Text style={{ ...props.labelStyle }}>{props.config.label}</Text> : null}
             {inputElement}
-            <Text style={{ color: "red" }}>{props.errorMessage}</Text>
+            <Text style={{ color: "red" }}>{props.config.errorMessage}</Text>
         </View>
     );
 }

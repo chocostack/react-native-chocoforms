@@ -133,24 +133,7 @@ export function inputChangedHandler(form, event, inputIdentifier){
     const updatedForm = { ...form };
     const updatedControls = { ...updatedForm.controls };
 
-    const updatedControlElement = {
-        ...updatedControls[inputIdentifier]
-    }
-
-    if (updatedControlElement.validation.tos) {
-        updatedControlElement.value = (!updatedControlElement.value);
-    } else if (updatedControlElement.elementType == 'date') {
-        updatedControlElement.dateObject = event;
-
-        updatedControlElement.value = GeneralFunctions.getFormatedDate(updatedControlElement.dateObject);
-    } else if (updatedControlElement.elementType == 'currency') {
-        updatedControlElement.value = event.unMaskedValue;
-    } else if (updatedControlElement.elementType == 'select') {
-        updatedControlElement.value = event.nativeEvent.id;
-        updatedControlElement.text = event.nativeEvent.text;
-    } else {
-        updatedControlElement.value = event.nativeEvent.text;
-    }
+    const updatedControlElement = inputChanged(updatedControls[inputIdentifier], event)
 
     if (updatedControlElement.onChangeCopyValueTo) {
         updatedControls[updatedControlElement.onChangeCopyValueTo].value = updatedControlElement.value;
@@ -179,6 +162,36 @@ export function inputChangedHandler(form, event, inputIdentifier){
     updatedForm.isValidForm = isValid;
 
     return updatedForm;
+}
+
+export function inputChanged(control, event) {
+    let errorMsg = "";
+    const updatedControlElement = { ...control };
+
+    if (updatedControlElement.validation.tos) {
+        updatedControlElement.value = (!updatedControlElement.value);
+    } else if (updatedControlElement.elementType == 'date') {
+        updatedControlElement.dateObject = event;
+
+        updatedControlElement.value = GeneralFunctions.getFormatedDate(updatedControlElement.dateObject);
+    } else if (updatedControlElement.elementType == 'currency') {
+        updatedControlElement.value = event.unMaskedValue;
+    } else if (updatedControlElement.elementType == 'select') {
+        updatedControlElement.value = event.nativeEvent.id;
+        updatedControlElement.text = event.nativeEvent.text;
+    } else {
+        updatedControlElement.value = event.nativeEvent.text;
+    }
+
+    const Response = validateInput(updatedControlElement.value, updatedControlElement.validation);
+
+    if (!Response.Validated) {
+        errorMsg = Response.Msg;
+    }
+
+    updatedControlElement.errorMessage = errorMsg;
+
+    return updatedControlElement;
 }
 
 /************************************************************************

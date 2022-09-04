@@ -30,6 +30,7 @@ const ChocoForm = (props) => {
     const form = formElementsArray.map(formElement => (
         <Input
             key={formElement.id}
+            labelStyle={props.labelStyle}
             inputStyle={props.inputStyle}
             inputStyleTouched={props.inputStyleTouched}
             inputStyleBlured={props.inputStyleBlured}
@@ -56,6 +57,7 @@ export const ChocoInput = (props) => {
 
     return <Input
         key={props.id}
+        labelStyle={props.labelStyle}
         inputStyle={props.inputStyle}
         inputStyleTouched={props.inputStyleTouched}
         inputStyleBlured={props.inputStyleBlured}

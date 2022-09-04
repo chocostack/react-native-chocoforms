@@ -105,70 +105,74 @@ export class FormModal extends Component {
         }
 
         return (
-            <Modal
-                hideModalContentWhileAnimating={true}
-                hasBackdrop={true}
-                backdropColor={"black"}
-                backdropOpacity={.7}
-                useNativeDriver={true}
-                animationIn={"zoomIn"}
-                animationInTiming={200}
-                isVisible={this.props.isOpen}
-                onRequestClose={this.props.toggle}
-                onBackdropPress={this.props.toggle}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
-                <View style={{
-                    backgroundColor: 'white',
-                    borderRadius: 8,
-                    padding: 15,
-                    paddingBottom: 0
-                }}>
-                    <ScrollView keyboardShouldPersistTaps={'always'} style={{ minHeight: 100 }}>
-                        <Text style={{ fontSize: 18, textAlign: 'center' }}>
-                            {this.props.title}
-                        </Text>
-                        <ChocoForm
-                            form={this.props.form}
-                            onFormChange={this.props.onFormChange}
-                        />
-                        {this.state.loading ?
-                            <ActivityIndicator size={52} color={"black"} style={{ marginBottom: 15 }} />
-                            :
-                            <View style={{
-                                justifyContent: 'space-between',
-                                flexDirection: 'row'
-                            }}>
-                                <TouchableNativeFeedback onPress={this.props.toggle}>
-                                    <View style={{ padding: 20 }}>
-                                        <Text style={{ fontSize: 20, color: 'black' }}>
-                                            {this.props.cancelText}
-                                        </Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={async () => {
-                                    if (this.props.form.isValidForm) {
-                                        this.setState({
-                                            loading: true
-                                        });
-
-                                        await this.props.confirmFunction();
-
-                                        this.setState({
-                                            loading: false
-                                        });
-                                    }
+                <Modal
+                    hideModalContentWhileAnimating={true}
+                    hasBackdrop={true}
+                    backdropColor={"black"}
+                    backdropOpacity={.7}
+                    useNativeDriver={true}
+                    animationIn={"zoomIn"}
+                    animationInTiming={200}
+                    isVisible={this.props.isOpen}
+                    onRequestClose={this.props.toggle}
+                    onBackdropPress={this.props.toggle}
+                >
+                    <View style={{
+                        backgroundColor: 'white',
+                        borderRadius: 8,
+                        padding: 15,
+                        paddingBottom: 0
+                    }}>
+                        <ScrollView keyboardShouldPersistTaps={'always'} style={{ minHeight: 100 }}>
+                            <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                                {this.props.title}
+                            </Text>
+                            <ChocoForm
+                                form={this.props.form}
+                                onFormChange={this.props.onFormChange}
+                            />
+                            {this.state.loading ?
+                                <ActivityIndicator size={52} color={"black"} style={{ marginBottom: 15 }} />
+                                :
+                                <View style={{
+                                    justifyContent: 'space-between',
+                                    flexDirection: 'row'
                                 }}>
-                                    <View style={{ padding: 20 }}>
-                                        <Text style={{ fontSize: 20, color: 'black', ...disabledStyle, }}>
-                                            {this.props.confirmText}
-                                        </Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                            </View>
-                        }
-                    </ScrollView>
-                </View>
-            </Modal>
+                                    <TouchableNativeFeedback onPress={this.props.toggle}>
+                                        <View style={{ padding: 20 }}>
+                                            <Text style={{ fontSize: 20, color: 'black' }}>
+                                                {this.props.cancelText}
+                                            </Text>
+                                        </View>
+                                    </TouchableNativeFeedback>
+                                    <TouchableNativeFeedback onPress={async () => {
+                                        if (this.props.form.isValidForm) {
+                                            this.setState({
+                                                loading: true
+                                            });
+
+                                            await this.props.confirmFunction();
+
+                                            this.setState({
+                                                loading: false
+                                            });
+                                        }
+                                    }}>
+                                        <View style={{ padding: 20 }}>
+                                            <Text style={{ fontSize: 20, color: 'black', ...disabledStyle, }}>
+                                                {this.props.confirmText}
+                                            </Text>
+                                        </View>
+                                    </TouchableNativeFeedback>
+                                </View>
+                            }
+                        </ScrollView>
+                    </View>
+                </Modal>
+            </KeyboardAvoidingView>
         );
     }
 

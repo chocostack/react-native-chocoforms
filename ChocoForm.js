@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, ScrollView, TouchableNativeFeedback } from 'react-native';
+import { Text, View, ActivityIndicator, ScrollView, TouchableNativeFeedback, KeyboardAvoidingView } from 'react-native';
 
 import Modal from "react-native-modal";
 
@@ -62,9 +62,9 @@ export const ChocoInput = (props) => {
         inputStyleTouched={props.inputStyleTouched}
         inputStyleBlured={props.inputStyleBlured}
         inputChangedHandler={(event) => {
-            const updatedForm = InputFunctions.inputChangedHandler(props.form, event, formElement.id);
+            const updatedControlElement = InputFunctions.inputChanged(props.control, event);
 
-            props.onFormChange(updatedForm);
+            props.inputChangedHandler(updatedControlElement);
         }}
         config={props.control}
     />;

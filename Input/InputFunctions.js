@@ -185,11 +185,11 @@ export function inputChanged(control, event) {
 
     const Response = validateInput(updatedControlElement.value, updatedControlElement.validation);
 
-    if (!Response.Validated) {
-        errorMsg = Response.Msg;
-    }
+    updatedControlElement.valid = Response.Validated;
 
-    updatedControlElement.errorMessage = errorMsg;
+    if (!Response.Validated) {
+        updatedControlElement.errorMessage = errorMsg;
+    }
 
     return updatedControlElement;
 }

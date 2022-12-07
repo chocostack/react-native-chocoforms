@@ -19,11 +19,11 @@ const Input = (props) => {
     let inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', ...props.inputStyle };
 
     if (touched) {
-        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'blue', ...props.inputStyleTouched };
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'blue', ...props.inputStyle, ...props.inputStyleTouched };
     }
 
     if (blured) {
-        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'purple', ...props.inputStyleBlured };
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'purple', ...props.inputStyle, ...props.inputStyleBlured };
     }
 
     let inputStyle = { paddingTop: 0, paddingBottom: 7, ...inputBorder };

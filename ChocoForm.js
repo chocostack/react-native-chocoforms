@@ -44,7 +44,7 @@ const ChocoForm = (props) => {
     ));
 
     return (
-        <View style={{ padding: 15 }}>
+        <View style={{ padding: 15, ...props.containerStyle }}>
             {form}
             {generalError}
         </View>

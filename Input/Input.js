@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import OptionModal from '@chocostack/react-native-options-modal';
 
 import * as MaskFunctions from '@chocostack/maskifier';
+import ChocoConfig from "../ChocoConfig";
 
 const Input = (props) => {
 
@@ -19,11 +20,11 @@ const Input = (props) => {
     let inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', ...props.inputStyle };
 
     if (touched) {
-        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'blue', ...props.inputStyle, ...props.inputStyleTouched };
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'blue', ...ChocoConfig.inputStyle, ...props.inputStyle, ...ChocoConfig.inputStyleTouched, ...props.inputStyleTouched };
     }
 
     if (blured) {
-        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'purple', ...props.inputStyle, ...props.inputStyleBlured };
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'purple', ...ChocoConfig.inputStyle, ...props.inputStyle, ...ChocoConfig.inputStyleBlurred, ...props.inputStyleBlured };
     }
 
     let inputStyle = { paddingTop: 0, paddingBottom: 7, ...inputBorder };

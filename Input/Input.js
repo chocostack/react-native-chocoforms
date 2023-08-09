@@ -128,7 +128,8 @@ const Input = (props) => {
             inputElement = <View>
                 <SelectDropdown
                     data={props.config.options}
-                    onSelect={(selectedItem, index) => {
+                    defaultValue={props.config.value}
+                    onSelect={(item, index) => {
                         const obj = {
                             nativeEvent: {
                                 id: item.id,

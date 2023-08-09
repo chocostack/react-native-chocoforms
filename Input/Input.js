@@ -17,14 +17,17 @@ const Input = (props) => {
 
     let inputElement = null;
 
+    let labelStyle = {  };
     let inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', ...props.inputStyle };
 
     if (touched) {
-        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'blue', ...ChocoConfig.inputStyle, ...props.inputStyle, ...ChocoConfig.inputStyleTouched, ...props.inputStyleTouched };
+        labelStyle = { color: ChocoConfig.mainColor }
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: ChocoConfig.mainColor, ...ChocoConfig.inputStyle, ...props.inputStyle, ...ChocoConfig.inputStyleTouched, ...props.inputStyleTouched };
     }
 
     if (blured) {
-        inputBorder = { borderBottomWidth: 1, borderBottomColor: 'purple', ...ChocoConfig.inputStyle, ...props.inputStyle, ...ChocoConfig.inputStyleBlurred, ...props.inputStyleBlured };
+        labelStyle = {}
+        inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', ...ChocoConfig.inputStyle, ...props.inputStyle, ...ChocoConfig.inputStyleBlurred, ...props.inputStyleBlured };
     }
 
     let inputStyle = { paddingTop: 0, paddingBottom: 7, ...inputBorder };
@@ -162,7 +165,7 @@ const Input = (props) => {
 
     return (
         <View>
-            {props.config.label ? <Text style={{ ...props.labelStyle }}>{props.config.label}</Text> : null}
+            {props.config.label ? <Text style={{ ...labelStyle, ...props.labelStyle }}>{props.config.label}</Text> : null}
             {inputElement}
             <Text style={{ color: "red" }}>{props.config.errorMessage}</Text>
         </View>

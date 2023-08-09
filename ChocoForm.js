@@ -127,7 +127,7 @@ export class FormModal extends Component {
                         paddingBottom: 0
                     }}>
                         <ScrollView keyboardShouldPersistTaps={'always'} style={{ minHeight: 100 }}>
-                            <Text style={{ fontSize: 18, textAlign: 'center' }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: ChocoConfig.mainColor }}>
                                 {this.props.title}
                             </Text>
                             <ChocoForm
@@ -138,11 +138,12 @@ export class FormModal extends Component {
                                 <ActivityIndicator size={52} color={"black"} style={{ marginBottom: 15 }} />
                                 :
                                 <View style={{
-                                    justifyContent: 'space-between',
-                                    flexDirection: 'row'
+                                    justifyContent: 'flex-end',
+                                    flexDirection: 'row',
+                                    marginBottom: 10
                                 }}>
                                     <TouchableNativeFeedback onPress={this.props.toggle}>
-                                        <View style={{ padding: 20 }}>
+                                        <View style={{ padding: 15 }}>
                                             <Text style={{ fontSize: 20, color: 'black' }}>
                                                 {this.props.cancelText}
                                             </Text>
@@ -161,8 +162,8 @@ export class FormModal extends Component {
                                             });
                                         }
                                     }}>
-                                        <View style={{ padding: 20 }}>
-                                            <Text style={{ fontSize: 20, color: 'black', ...disabledStyle, }}>
+                                        <View style={{ padding: 15, backgroundColor: ChocoConfig.mainColor }}>
+                                            <Text style={{ fontSize: 20, color: 'white', ...disabledStyle, }}>
                                                 {this.props.confirmText}
                                             </Text>
                                         </View>

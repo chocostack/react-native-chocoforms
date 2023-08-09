@@ -4,6 +4,8 @@ class ChocoConfig {
     static inputStyle = {};
     static inputStyleTouched = {};
     static inputStyleBlurred = {};
+
+    static mainColor = '#f05423'
 }
 
 

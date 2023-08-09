@@ -149,6 +149,7 @@ export class FormModal extends Component {
                                             </Text>
                                         </View>
                                     </TouchableOpacity>
+                                    <View style={{ width: 7 }}></View>
                                     <TouchableOpacity onPress={async () => {
                                         if (this.props.form.isValidForm) {
                                             this.setState({

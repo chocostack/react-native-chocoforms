@@ -127,8 +127,9 @@ const Input = (props) => {
         case 'select':
             inputElement = <View>
                 <SelectDropdown
+                    buttonStyle={{ width: '100%' }}
                     data={props.config.options}
-                    defaultValue={props.config.value}
+                    defaultValue={props.config.text}
                     onSelect={(item, index) => {
                         const obj = {
                             nativeEvent: {

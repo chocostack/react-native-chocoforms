@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, ScrollView, TouchableNativeFeedback, KeyboardAvoidingView } from 'react-native';
+import { Text, View, ActivityIndicator, ScrollView, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 
 import Modal from "react-native-modal";
 
@@ -140,16 +140,16 @@ export class FormModal extends Component {
                                 <View style={{
                                     justifyContent: 'flex-end',
                                     flexDirection: 'row',
-                                    marginBottom: 10
+                                    marginBottom: 15
                                 }}>
-                                    <TouchableNativeFeedback onPress={this.props.toggle}>
-                                        <View style={{ padding: 15 }}>
+                                    <TouchableOpacity onPress={this.props.toggle}>
+                                        <View style={{ padding: 10, borderRadius: 6, }}>
                                             <Text style={{ fontSize: 20, color: 'black' }}>
                                                 {this.props.cancelText}
                                             </Text>
                                         </View>
-                                    </TouchableNativeFeedback>
-                                    <TouchableNativeFeedback onPress={async () => {
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={async () => {
                                         if (this.props.form.isValidForm) {
                                             this.setState({
                                                 loading: true
@@ -162,12 +162,12 @@ export class FormModal extends Component {
                                             });
                                         }
                                     }}>
-                                        <View style={{ padding: 15, backgroundColor: ChocoConfig.mainColor }}>
-                                            <Text style={{ fontSize: 20, color: 'white', ...disabledStyle, }}>
+                                        <View style={{ padding: 10, borderRadius: 6, backgroundColor: ChocoConfig.mainColor,  ...disabledStyle }}>
+                                            <Text style={{ fontSize: 20, color: 'white', }}>
                                                 {this.props.confirmText}
                                             </Text>
                                         </View>
-                                    </TouchableNativeFeedback>
+                                    </TouchableOpacity>
                                 </View>
                             }
                         </ScrollView>

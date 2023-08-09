@@ -3,8 +3,8 @@
 import { Linking, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
-;
-import OptionModal from '@chocostack/react-native-options-modal';
+
+import SelectDropdown from 'react-native-select-dropdown'
 
 import * as MaskFunctions from '@chocostack/maskifier';
 import ChocoConfig from "../ChocoConfig";
@@ -125,28 +125,10 @@ const Input = (props) => {
             </View>
             break;
         case 'select':
-            const [isVisible, setIsVisible] = useState(false);
-            const [selected, setSelected] = useState(props.config.value);
-
-            const toggle = () => {
-                setIsVisible(!isVisible);
-            }
-
             inputElement = <View>
-                <TouchableWithoutFeedback onPress={toggle}>
-                    <View>
-                        <Text style={{ fontSize: 20, ...inputStyle }}>
-                            {props.config.text}
-                        </Text>
-                    </View>
-                </TouchableWithoutFeedback>
-                <OptionModal
-                    title={props.config.label}
-                    isVisible={isVisible}
-                    toggleModal={toggle}
-                    options={props.config.options}
-                    selected={selected}
-                    callback={(item) => {
+                <SelectDropdown
+                    data={props.config.options}
+                    onSelect={(selectedItem, index) => {
                         const obj = {
                             nativeEvent: {
                                 id: item.id,
@@ -155,8 +137,14 @@ const Input = (props) => {
                         }
 
                         props.inputChangedHandler(obj);
-
-                        setSelected(item.id);
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        // text represented after item is selected
+                        return selectedItem.text
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        // text represented for each item in dropdown
+                        return item.text
                     }}
                 />
             </View>

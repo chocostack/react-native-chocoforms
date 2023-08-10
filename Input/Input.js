@@ -125,11 +125,13 @@ const Input = (props) => {
             </View>
             break;
         case 'select':
+            const valueIndex = props.config.options.findIndex(i => i.id === props.config.value)
+
             inputElement = <View>
                 <SelectDropdown
                     buttonStyle={{ width: '100%' }}
                     data={props.config.options}
-                    defaultValue={props.config.text}
+                    defaultValueByIndex={valueIndex}
                     onSelect={(item, index) => {
                         const obj = {
                             nativeEvent: {
@@ -139,6 +141,9 @@ const Input = (props) => {
                         }
 
                         props.inputChangedHandler(obj);
+
+                        if (props.config.onChangeCallback)
+                            props.config.onChangeCallback(item);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
                         // text represented after item is selected
@@ -154,7 +159,7 @@ const Input = (props) => {
     }
 
     return (
-        <View>
+        <View style={{ marginTop: 3 }}>
             {props.config.label ? <Text style={{ ...labelStyle, ...props.labelStyle }}>{props.config.label}</Text> : null}
             {inputElement}
             <Text style={{ color: "red" }}>{props.config.errorMessage}</Text>

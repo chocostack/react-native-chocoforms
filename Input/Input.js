@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 
 import { Linking, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 
@@ -10,6 +10,8 @@ import * as MaskFunctions from '@chocostack/maskifier';
 import ChocoConfig from "../ChocoConfig";
 
 const Input = (props) => {
+
+    const inputRef = useRef();
 
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(Platform.OS == 'ios');
     const [touched, setTouched] = useState(false);
@@ -45,6 +47,13 @@ const Input = (props) => {
             setBlured(true);
         }
     }
+
+    useEffect(() => {
+        if(props.config.reset && inputRef && inputRef.current){
+            inputRef.current.reset();
+        }
+
+    }, [props.config.reset]);
 
     switch (props.config.elementType) {
         case 'currency':
@@ -125,18 +134,25 @@ const Input = (props) => {
             </View>
             break;
         case 'select':
-            const valueIndex = props.config.options.findIndex(i => i.id === props.config.value)
+            const valueIndex = props.config.options.findIndex(i => i.id === props.config.value || i.value === props.config.value)
 
             inputElement = <View>
                 <SelectDropdown
+                    ref={inputRef}
                     buttonStyle={{ width: '100%' }}
                     data={props.config.options}
                     defaultValueByIndex={valueIndex}
                     onSelect={(item, index) => {
+                        const id = item.id ? item.id : item.value;
+                        const text = item.text ? item.text : item.label;
+
                         const obj = {
                             nativeEvent: {
-                                id: item.id,
-                                text: item.text,
+                                id: id,
+                                text: text,
+                                //For compatibility with some code
+                                value: id,
+                                label: text
                             }
                         }
 
@@ -160,7 +176,7 @@ const Input = (props) => {
 
     return (
         <View style={{ marginTop: 3 }}>
-            {props.config.label ? <Text style={{ ...labelStyle, ...props.labelStyle }}>{props.config.label}</Text> : null}
+            {props.config.label ? <Text style={{ fontWeight: 'bold', ...labelStyle, ...props.labelStyle }}>{props.config.label}</Text> : null}
             {inputElement}
             <Text style={{ color: "red" }}>{props.config.errorMessage}</Text>
         </View>

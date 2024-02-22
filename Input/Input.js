@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
 
-import { Linking, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { Linking, Text, TextInput, TouchableWithoutFeedback, View, Platform } from 'react-native';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 

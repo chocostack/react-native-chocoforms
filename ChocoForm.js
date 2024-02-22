@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, ScrollView, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Text, View, ActivityIndicator, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 
 import Modal from "react-native-modal";
 

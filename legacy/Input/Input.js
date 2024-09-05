@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectDropdown from 'react-native-select-dropdown'
 
 import * as MaskFunctions from '@chocostack/maskifier';
-import ChocoConfig from "../ChocoConfig";
+import ChocoConfig from "../../ChocoConfig";
 
 const Input = (props) => {
 

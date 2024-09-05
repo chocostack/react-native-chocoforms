@@ -1,20 +1,23 @@
 ﻿import TInputFunctions from './TInputFunctions';
 
-import ChocoConfig from '../ChocoConfig';
+import ChocoConfig from '../../ChocoConfig';
 
 const emailSpecialChars = "._-+";
 const numberChars = "0123456789";
 
 export function validateInput(value, validations, controls = false) {
+
     let Response = {
         Validated: true,
         Msg: ""
     }
-
-    if (!validations)
-        return Response;
     
-    if (validations.isDate) {
+    if (validations.tos) {
+        if (!value) {
+            Response.Validated = false;
+            Response.Msg = TInputFunctions[ChocoConfig.lang].TOS_REQUIRED;
+        }
+    } else if (validations.isDate) {
         if (validations.required) {
             if (value == "") {
                 Response.Validated = false;
@@ -22,7 +25,7 @@ export function validateInput(value, validations, controls = false) {
             }
         }
     } else {
-        if (!value)
+        if (isNaN(value) && !value)
             value = "";
 
         value = ('' + value).trim();
@@ -133,11 +136,31 @@ export function inputChangedHandler(form, event, inputIdentifier){
     const updatedForm = { ...form };
     const updatedControls = { ...updatedForm.controls };
 
-    const updatedControlElement = inputChanged(updatedControls[inputIdentifier], event)
-
-    if (updatedControlElement.onChangeCopyValueTo) {
-        updatedControls[updatedControlElement.onChangeCopyValueTo].value = updatedControlElement.value;
+    const updatedControlElement = {
+        ...updatedControls[inputIdentifier]
     }
+    if (updatedControlElement.validation && updatedControlElement.validation.tos) {
+        updatedControlElement.value = (!updatedControlElement.value);
+    } else if (updatedControlElement.elementType == 'checkbox') {
+        updatedControlElement.value = (!updatedControlElement.value);
+    } else if (updatedControlElement.elementType == 'date') {
+        updatedControlElement.dateObject = event;
+
+        //updatedControlElement.value = GeneralFunctions.getFormatedDate(updatedControlElement.dateObject);
+    } else if (updatedControlElement.elementType == 'currency') {
+        updatedControlElement.value = event.unMaskedValue;
+    } else if (updatedControlElement.elementType == 'select') {
+        updatedControlElement.value = event.value;
+    } else if (updatedControlElement.elementType == 'slider') {
+        updatedControlElement.value = event;
+    } else if (updatedControlElement.elementType == 'query') {
+        updatedControlElement.value = event.value;
+    } else if (updatedControlElement.elementType == 'score') {
+        updatedControlElement.value = event.value;
+    } else {
+        updatedControlElement.value = event.nativeEvent.text;
+    }
+
 
     const Response = validateInput(updatedControlElement.value, updatedControlElement.validation, updatedControls);
 
@@ -159,39 +182,10 @@ export function inputChangedHandler(form, event, inputIdentifier){
     }
 
     updatedForm.controls = updatedControls;
+    updatedForm.edited = true;
     updatedForm.isValidForm = isValid;
 
     return updatedForm;
-}
-
-export function inputChanged(control, event) {
-    let errorMsg = "";
-    const updatedControlElement = { ...control };
-
-    if (updatedControlElement.validation.tos) {
-        updatedControlElement.value = (!updatedControlElement.value);
-    } else if (updatedControlElement.elementType == 'date') {
-        updatedControlElement.dateObject = event;
-
-        updatedControlElement.value = GeneralFunctions.getFormatedDate(updatedControlElement.dateObject);
-    } else if (updatedControlElement.elementType == 'currency') {
-        updatedControlElement.value = event.unMaskedValue;
-    } else if (updatedControlElement.elementType == 'select') {
-        updatedControlElement.value = event.nativeEvent.id;
-        updatedControlElement.text = event.nativeEvent.text;
-    } else {
-        updatedControlElement.value = event.nativeEvent.text;
-    }
-
-    const Response = validateInput(updatedControlElement.value, updatedControlElement.validation);
-
-    updatedControlElement.valid = Response.Validated;
-
-    if (!Response.Validated) {
-        updatedControlElement.errorMessage = errorMsg;
-    }
-
-    return updatedControlElement;
 }
 
 /************************************************************************

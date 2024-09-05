@@ -1,8 +1,8 @@
 {
   "name": "react-native-chocoforms",
-  "version": "1.0.48",
+  "version": "1.1.48",
   "description": "A package that aims to speed up form creation in react native",
-  "main": "ChocoForm.js",
+  "main": "legacy/ChocoForm.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

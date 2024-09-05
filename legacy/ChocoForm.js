@@ -3,7 +3,7 @@ import { Text, View, ActivityIndicator, ScrollView, TouchableOpacity, KeyboardAv
 
 import Modal from "react-native-modal";
 
-import ChocoConfig from './ChocoConfig';
+import ChocoConfig from '../ChocoConfig';
 
 import Input from './Input/Input';
 
@@ -119,6 +119,7 @@ export class FormModal extends Component {
                     isVisible={this.props.isOpen}
                     onRequestClose={this.props.toggle}
                     onBackdropPress={this.props.toggle}
+                    avoidKeyboard={}
                 >
                     <View style={{
                         backgroundColor: 'white',

@@ -37,18 +37,18 @@ const ChocoFormTS: React.FC<ChocoFormProps> = ({
                                                }) => {
 
     const formElementsArray = new Array<any>();
-    let generalError = <div></div>;
+    let generalError = <View></View>;
 
     if (lang)
         ChocoConfig.lang = lang;
 
     if (form.generalError && form.generalError.show) {
-        generalError = (<div style={{
+        generalError = (<View style={{
             fontSize: 18,
             color: "red",
             marginBottom: 15,
             textAlign: "center"
-        }}>{form.generalError.text}</div>)
+        }}>{form.generalError.text}</View>)
     }
 
     for (let key in form.controls) {
@@ -78,10 +78,10 @@ const ChocoFormTS: React.FC<ChocoFormProps> = ({
     ));
 
     return (
-        <div className={containerClassName + ' row'}>
+        <View className={containerClassName + ' row'}>
             {formComponent}
             {generalError}
-        </div>
+        </View>
     );
 }
 
@@ -208,7 +208,7 @@ export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
                         <ScrollView keyboardShouldPersistTaps={'always'} style={{minHeight: 100}}>
                             {// @ts-ignore
                                 this.props.title ?
-                                    <h1
+                                    <Text
                                         style={{
                                             marginBottom: 30,
                                             fontSize: '2.5rem'
@@ -217,7 +217,7 @@ export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
                                         {// @ts-ignore
                                             this.props.title
                                         }
-                                    </h1>
+                                    </Text>
                                     :
                                     null
                             }

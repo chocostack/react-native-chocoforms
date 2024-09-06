@@ -23,6 +23,7 @@ class ChocoControl {
 
     constructor(validation?: Partial<IChocoControl>) {
         if (validation) {
+            // @ts-ignore
             Object.assign(this, validation);
         }
     }

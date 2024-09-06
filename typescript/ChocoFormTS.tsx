@@ -185,8 +185,6 @@ export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
                                     padding: 10,
                                     borderRadius: 6,
                                     backgroundColor: ChocoConfig.mainColor,
-                                    // @ts-ignore
-                                    ...disabledStyle
                                 }}>
                                     <Text style={{fontSize: 20, color: 'white',}}>
                                         {

@@ -211,7 +211,7 @@ export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
                                     <Text
                                         style={{
                                             marginBottom: 30,
-                                            fontSize: '2.5rem'
+                                            fontSize: 22
                                         }}
                                     >
                                         {// @ts-ignore

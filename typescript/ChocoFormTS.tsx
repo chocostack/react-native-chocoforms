@@ -6,15 +6,9 @@ import * as InputFunctions from './Input/InputFunctions';
 // @ts-ignore
 import React, {Component} from "react";
 import ChocoForm from "./models/ChocoForm";
-import {
-    Text,
-    ActivityIndicator,
-    Modal,
-    ScrollView,
-    View,
-    TouchableOpacity
+
 // @ts-ignore
-} from "react-native";
+import {ActivityIndicator, Modal, ScrollView, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform} from "react-native";
 
 interface ChocoFormProps {
     lang?: string | null | undefined;
@@ -133,71 +127,36 @@ export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
     }
 
     render() {
+        let disabledStyle = {};
+
+        // @ts-ignore
+        if (!this.props.form.isValidForm) {
+            disabledStyle = {
+                opacity: .5
+            }
+        }
+
         return (
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
             <Modal
-                transparent={true}
+                hideModalContentWhileAnimating={true}
+                hasBackdrop={true}
+                backdropColor={"black"}
+                backdropOpacity={.7}
+                useNativeDriver={true}
+                animationIn={"zoomIn"}
+                animationInTiming={200}
                 // @ts-ignore
-                visible={this.props.isOpen}
+                isVisible={this.props.isOpen}
                 // @ts-ignore
                 onRequestClose={this.props.toggle}
-                hideHeader={true}
-                footer={
-                    // @ts-ignore
-                    this.state.loading ?
-                        <ActivityIndicator style={{marginRight: 7}}/>
-                        :
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                            <TouchableOpacity
-                                // @ts-ignore
-                                onPress={this.props.toggle}
-                            >
-                                <View style={{padding: 10, borderRadius: 6,}}>
-                                    <Text style={{fontSize: 20, color: 'black'}}>
-                                        {
-                                            // @ts-ignore
-                                            this.props.cancelText
-                                        }
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                            <View style={{width: 7}}></View>
-                            <TouchableOpacity
-                                // @ts-ignore
-                                onPress={async () => {
-                                    // @ts-ignore
-                                    if (this.props.form.isValidForm) {
-                                        // @ts-ignore
-                                        this.setState({
-                                            loading: true
-                                        });
-
-                                        // @ts-ignore
-                                        await this.props.confirmFunction();
-
-                                        // @ts-ignore
-                                        this.setState({
-                                            loading: false
-                                        });
-                                    }
-                                }}
-                            >
-                                <View style={{
-                                    padding: 10,
-                                    borderRadius: 6,
-                                    backgroundColor: ChocoConfig.mainColor,
-                                }}>
-                                    <Text style={{fontSize: 20, color: 'white',}}>
-                                        {
-                                            // @ts-ignore
-                                            this.props.confirmText
-                                        }
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                }
+                // @ts-ignore
+                onBackdropPress={this.props.toggle}
             >
                 <View style={{
+                    backgroundColor: 'white',
                     flex: 1,
                     flexDirection: 'column',
                 }}>
@@ -227,10 +186,73 @@ export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
                                 // @ts-ignore
                                 onFormChange={this.props.onFormChange}
                             />
+                            {
+                                // @ts-ignore
+                                this.state.loading ?
+                                    <ActivityIndicator size={52} color={"black"} style={{marginBottom: 15}}/>
+                                    :
+                                    <View style={{
+                                        justifyContent: 'flex-end',
+                                        flexDirection: 'row',
+                                        marginBottom: 15
+                                    }}>
+                                        <TouchableOpacity
+                                            onPress={
+                                                // @ts-ignore
+                                                this.props.toggle
+                                            }
+                                        >
+                                            <View style={{padding: 10, borderRadius: 6,}}>
+                                                <Text style={{fontSize: 20, color: 'black'}}>
+                                                    {
+                                                        // @ts-ignore
+                                                        this.props.cancelText
+                                                    }
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <View style={{width: 7}}></View>
+                                        <TouchableOpacity onPress={
+                                            // @ts-ignore
+                                            async () => {
+                                                // @ts-ignore
+                                                if (this.props.form.isValidForm) {
+                                                    // @ts-ignore
+                                                    this.setState({
+                                                        loading: true
+                                                    });
+
+                                                    // @ts-ignore
+                                                    await this.props.confirmFunction();
+
+                                                    // @ts-ignore
+                                                    this.setState({
+                                                        loading: false
+                                                    });
+                                                }
+                                            }
+                                        }>
+                                            <View style={{
+                                                padding: 10,
+                                                borderRadius: 6,
+                                                backgroundColor: ChocoConfig.mainColor,
+                                                ...disabledStyle
+                                            }}>
+                                                <Text style={{fontSize: 20, color: 'white',}}>
+                                                    {
+                                                        // @ts-ignore
+                                                        this.props.confirmText
+                                                    }
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                            }
                         </ScrollView>
                     </View>
                 </View>
             </Modal>
+                </KeyboardAvoidingView>
         );
     }
 

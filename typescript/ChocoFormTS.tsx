@@ -4,11 +4,11 @@ import Input from './Input/Input';
 
 import * as InputFunctions from './Input/InputFunctions';
 // @ts-ignore
-import React, {Component} from "react";
+import React, {useState} from "react";
 import ChocoForm from "./models/ChocoForm";
 
 // @ts-ignore
-import {ActivityIndicator, Modal, ScrollView, Text, TouchableOpacity, View, KeyboardAvoidingView, Platform} from "react-native";
+import {ActivityIndicator, Modal, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform} from "react-native";
 
 interface ChocoFormProps {
     lang?: string | null | undefined;
@@ -96,164 +96,118 @@ interface FormModalTSProps {
 interface FormModalTSState {
     loading: boolean;
 }
+export const FormModalTS: React.FC<FormModalTSProps> = (props) => {
+    const {
+        isOpen,
+        toggle,
+        title,
+        form,
+        onFormChange,
+        cancelText,
+        confirmText,
+        confirmFunction,
+    } = props;
 
-export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
+    const [loading, setLoading] = useState<boolean>(false);
 
-    constructor(props) {
-        super(props);
+    const disabledStyle = !form.isValidForm ? { opacity: 0.5 } : {};
 
-        // @ts-ignore
-        this.state = {
-            loading: false
+    const handleConfirm = async () => {
+        if (form.isValidForm) {
+            setLoading(true);
+            await confirmFunction();
+            setLoading(false);
         }
-    }
+    };
 
-    shouldComponentUpdate(nextProps, nextState) {
-        let shouldUpdate = false;
-
-        // @ts-ignore
-        if (!this.props)
-            shouldUpdate = true;
-        // @ts-ignore
-        else if (this.props.isOpen != nextProps.isOpen) {
-            shouldUpdate = true;
-            // @ts-ignore
-        } else if (this.props.isOpen) {
-            shouldUpdate = true;
-        }
-
-
-        return shouldUpdate;
-    }
-
-    render() {
-        let disabledStyle = {};
-
-        // @ts-ignore
-        if (!this.props.form.isValidForm) {
-            disabledStyle = {
-                opacity: .5
-            }
-        }
-
-        return (
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
+    return (
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
             <Modal
-                hideModalContentWhileAnimating={true}
-                hasBackdrop={true}
-                backdropColor={"black"}
-                backdropOpacity={.7}
+                isVisible={isOpen}
+                backdropColor={'black'}
+                backdropOpacity={0.7}
                 useNativeDriver={true}
-                animationIn={"zoomIn"}
+                animationIn={'zoomIn'}
                 animationInTiming={200}
-                // @ts-ignore
-                visible={this.props.isOpen}
-                // @ts-ignore
-                onRequestClose={this.props.toggle}
-                // @ts-ignore
-                onBackdropPress={this.props.toggle}
+                onBackdropPress={toggle}
+                onBackButtonPress={toggle}
+                style={{ margin: 0, justifyContent: 'center' }}
             >
-                <View style={{
-                    backgroundColor: 'white',
-                    flex: 1,
-                    flexDirection: 'column',
-                }}>
+                <TouchableWithoutFeedback onPress={() => {/* prevent close on inner taps */}}>
                     <View style={{
-                        borderRadius: 16,
-                        paddingBottom: 0
+                        backgroundColor: 'white',
+                        borderRadius: 12,
+                        padding: 20,
+                        maxWidth: 500,
+                        alignSelf: 'center',
+                        width: '90%'
                     }}>
-                        <ScrollView keyboardShouldPersistTaps={'always'} style={{minHeight: 100}}>
-                            {// @ts-ignore
-                                this.props.title ?
-                                    <Text
-                                        style={{
-                                            marginBottom: 30,
-                                            fontSize: 22
-                                        }}
-                                    >
-                                        {// @ts-ignore
-                                            this.props.title
-                                        }
-                                    </Text>
-                                    :
-                                    null
-                            }
+                        {title ? (
+                            <Text style={{
+                                fontSize: 22,
+                                fontWeight: '600',
+                                textAlign: 'center',
+                                marginBottom: 20
+                            }}>
+                                {title}
+                            </Text>
+                        ) : null}
+
+                        <ScrollView
+                            keyboardShouldPersistTaps='always'
+                            showsVerticalScrollIndicator={false}
+                            style={{ maxHeight: '70%', marginBottom: 20 }}
+                        >
                             <ChocoFormTS
-                                // @ts-ignore
-                                form={this.props.form}
-                                // @ts-ignore
-                                onFormChange={this.props.onFormChange}
+                                form={form}
+                                onFormChange={onFormChange}
                             />
-                            {
-                                // @ts-ignore
-                                this.state.loading ?
-                                    <ActivityIndicator size={52} color={"black"} style={{marginBottom: 15}}/>
-                                    :
-                                    <View style={{
-                                        justifyContent: 'flex-end',
-                                        flexDirection: 'row',
-                                        marginBottom: 15
-                                    }}>
-                                        <TouchableOpacity
-                                            onPress={
-                                                // @ts-ignore
-                                                this.props.toggle
-                                            }
-                                        >
-                                            <View style={{padding: 10, borderRadius: 6,}}>
-                                                <Text style={{fontSize: 20, color: 'black'}}>
-                                                    {
-                                                        // @ts-ignore
-                                                        this.props.cancelText
-                                                    }
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                        <View style={{width: 7}}></View>
-                                        <TouchableOpacity onPress={
-                                            // @ts-ignore
-                                            async () => {
-                                                // @ts-ignore
-                                                if (this.props.form.isValidForm) {
-                                                    // @ts-ignore
-                                                    this.setState({
-                                                        loading: true
-                                                    });
 
-                                                    // @ts-ignore
-                                                    await this.props.confirmFunction();
-
-                                                    // @ts-ignore
-                                                    this.setState({
-                                                        loading: false
-                                                    });
-                                                }
-                                            }
-                                        }>
-                                            <View style={{
-                                                padding: 10,
-                                                borderRadius: 6,
-                                                backgroundColor: ChocoConfig.mainColor,
-                                                ...disabledStyle
-                                            }}>
-                                                <Text style={{fontSize: 20, color: 'white',}}>
-                                                    {
-                                                        // @ts-ignore
-                                                        this.props.confirmText
-                                                    }
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                            }
+                            {loading && (
+                                <ActivityIndicator
+                                    size={52}
+                                    color={'black'}
+                                    style={{ marginVertical: 20, alignSelf: 'center' }}
+                                />
+                            )}
                         </ScrollView>
-                    </View>
-                </View>
-            </Modal>
-                </KeyboardAvoidingView>
-        );
-    }
 
-}
+                        {!loading && (
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 10 }}>
+                                <TouchableOpacity
+                                    onPress={toggle}
+                                    style={{ paddingVertical: 12, paddingHorizontal: 16 }}
+                                >
+                                    <Text style={{ fontSize: 18, color: 'black' }}>
+                                        {cancelText}
+                                    </Text>
+                                </TouchableOpacity>
+
+                                <View style={{ width: 12 }} />
+
+                                <TouchableOpacity
+                                    onPress={handleConfirm}
+                                    style={{
+                                        paddingVertical: 12,
+                                        paddingHorizontal: 16,
+                                        borderRadius: 6,
+                                        backgroundColor: form.isValidForm ? ChocoConfig.mainColor : '#ccc',
+                                        ...disabledStyle
+                                    }}
+                                    disabled={!form.isValidForm}
+                                >
+                                    <Text style={{ fontSize: 18, color: 'white', fontWeight: '500' }}>
+                                        {confirmText}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+        </KeyboardAvoidingView>
+    );
+};

@@ -149,7 +149,7 @@ export class FormModalTS extends Component<FormModalTSProps, FormModalTSState> {
                 animationIn={"zoomIn"}
                 animationInTiming={200}
                 // @ts-ignore
-                isVisible={this.props.isOpen}
+                visible={this.props.isOpen}
                 // @ts-ignore
                 onRequestClose={this.props.toggle}
                 // @ts-ignore

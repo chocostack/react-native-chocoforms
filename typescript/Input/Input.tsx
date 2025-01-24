@@ -22,7 +22,7 @@ const Input = (props) => {
     let inputElement = null;
 
     let labelStyle = {  };
-    let inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', ...props.inputStyle };
+    let inputBorder = { borderBottomWidth: 1, borderBottomColor: '#CCCCCC', ...ChocoConfig.inputStyle, ...props.inputStyle };
 
     if (touched) {
         labelStyle = { color: ChocoConfig.mainColor }

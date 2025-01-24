@@ -147,7 +147,7 @@ export const FormModalTS: React.FC<FormModalTSProps> = (props) => {
                     }}>
                         {title ? (
                             <Text style={{
-                                fontSize: 22,
+                                fontSize: 30,
                                 fontWeight: '600',
                                 textAlign: 'center',
                                 marginBottom: 20

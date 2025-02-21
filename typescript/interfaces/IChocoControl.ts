@@ -8,7 +8,7 @@ interface IChocoControl {
     elementConfig: any
     label: string | null | undefined // Label descriptive of the input
     instructions: string | null | undefined // Extra info or instructions of the input
-    value: string | number
+    value: string | number | null | undefined
     step: number | undefined
     options: Array<ChocoOption> | null  | undefined
     errorMessage: string // Error message of this specific input, managed by the component

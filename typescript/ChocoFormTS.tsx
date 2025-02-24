@@ -126,7 +126,7 @@ export const FormModalTS: React.FC<FormModalTSProps> = (props) => {
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
             <Modal
-                isVisible={isOpen}
+                visible={isOpen}
                 backdropColor={'black'}
                 backdropOpacity={0.7}
                 useNativeDriver={true}

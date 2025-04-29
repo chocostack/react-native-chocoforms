@@ -28,4 +28,8 @@
         'TOS_REQUIRED': 'Debes de acceptar los terminos de uso y servicio',
     }
 }
+
+TInputFunctions["en-US"] = TInputFunctions["enUS"];
+TInputFunctions["es-MX"] = TInputFunctions["esMX"];
+
 export default TInputFunctions;

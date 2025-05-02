@@ -12,6 +12,10 @@
         'EQUALS_TO': 'Must be the same as @',
         'INVALID_URL': 'Invalid url',
         'TOS_REQUIRED': 'You must accept the terms of service',
+        'INVALID_DATE_FORMAT': 'Invalid date format. Use MM/DD/YYYY',
+        'INVALID_DATE': 'Invalid date',
+        'DATE_BEFORE': 'Date must be before @',
+        'DATE_AFTER': 'Date must be after @',
     },
     // Spanish
     "esMX": {
@@ -26,6 +30,10 @@
         'EQUALS_TO': 'Debe ser igual a @',
         'INVALID_URL': 'Enlace inválido',
         'TOS_REQUIRED': 'Debes de acceptar los terminos de uso y servicio',
+        'INVALID_DATE_FORMAT': 'Formato de fecha inválido. Usa MM/DD/AAAA',
+        'INVALID_DATE': 'Fecha inválida',
+        'DATE_BEFORE': 'La fecha debe ser antes de @',
+        'DATE_AFTER': 'La fecha debe ser después de @',
     }
 }
 

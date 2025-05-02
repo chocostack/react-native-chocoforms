@@ -11,7 +11,7 @@ export function validateInput(value, validations, controls = false) {
         Validated: true,
         Msg: ""
     }
-    
+
     if (validations.tos) {
         if (!value) {
             Response.Validated = false;
@@ -22,6 +22,53 @@ export function validateInput(value, validations, controls = false) {
             if (value == "") {
                 Response.Validated = false;
                 Response.Msg = TInputFunctions[ChocoConfig.lang].INPUT_REQUIRED;
+                return Response;
+            }
+        }
+
+        // If value is not empty, validate it's a proper date format (MM/DD/YYYY)
+        if (value && value !== "") {
+            const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+            if (!dateRegex.test(value)) {
+                Response.Validated = false;
+                Response.Msg = TInputFunctions[ChocoConfig.lang].INVALID_DATE_FORMAT;
+                return Response;
+            }
+
+            // Check if it's a valid date (e.g., not 02/31/2023)
+            const parts = value.split('/');
+            const month = parseInt(parts[0], 10);
+            const day = parseInt(parts[1], 10);
+            const year = parseInt(parts[2], 10);
+
+            const date = new Date(year, month - 1, day);
+            if (
+                date.getFullYear() !== year || 
+                date.getMonth() !== month - 1 || 
+                date.getDate() !== day
+            ) {
+                Response.Validated = false;
+                Response.Msg = TInputFunctions[ChocoConfig.lang].INVALID_DATE;
+                return Response;
+            }
+
+            // Check min/max date if specified
+            if (validations.minDate) {
+                const minDate = new Date(validations.minDate);
+                if (date < minDate) {
+                    Response.Validated = false;
+                    Response.Msg = TInputFunctions[ChocoConfig.lang].DATE_AFTER.replace('@', getFormattedDate(minDate));
+                    return Response;
+                }
+            }
+
+            if (validations.maxDate) {
+                const maxDate = new Date(validations.maxDate);
+                if (date > maxDate) {
+                    Response.Validated = false;
+                    Response.Msg = TInputFunctions[ChocoConfig.lang].DATE_BEFORE.replace('@', getFormattedDate(maxDate));
+                    return Response;
+                }
             }
         }
     } else {
@@ -130,6 +177,15 @@ export function validateInput(value, validations, controls = false) {
     return Response;
 }
 
+// Format a date as MM/DD/YYYY
+function getFormattedDate(date) {
+    if (!date) return "";
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
+}
+
 export function inputChangedHandler(form, event, inputIdentifier){
     let errorMsg = "";
     let isValid = true;
@@ -146,7 +202,7 @@ export function inputChangedHandler(form, event, inputIdentifier){
     } else if (updatedControlElement.elementType == 'date') {
         updatedControlElement.dateObject = event;
 
-        //updatedControlElement.value = GeneralFunctions.getFormatedDate(updatedControlElement.dateObject);
+        updatedControlElement.value = getFormattedDate(updatedControlElement.dateObject);
     } else if (updatedControlElement.elementType == 'currency') {
         updatedControlElement.value = event.unMaskedValue;
     } else if (updatedControlElement.elementType == 'select') {

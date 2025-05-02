@@ -15,7 +15,8 @@ const Input = (props) => {
 
     const inputRef = useRef();
 
-    const [isDatePickerOpen, setIsDatePickerOpen] = useState(Platform.OS == 'ios');
+    // On iOS, the DateTimePicker is shown inline, on Android it's a modal
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
     const [touched, setTouched] = useState(false);
     const [blured, setBlured] = useState(false);
 
@@ -102,13 +103,26 @@ const Input = (props) => {
             />
             break;
         case 'date':
-            const maxDate = new Date();
-            maxDate.setFullYear(new Date().getFullYear() - 12);
-            
-            const dateValue = props.config.dateObject ? new Date(props.config.dateObject) : maxDate;
+            // Use current date as default if no default date is specified
+            const defaultDate = new Date();
+
+            // If defaultDate is specified in config, use it
+            if (props.config.defaultDate) {
+                if (typeof props.config.defaultDate === 'string') {
+                    defaultDate.setTime(Date.parse(props.config.defaultDate));
+                } else if (props.config.defaultDate instanceof Date) {
+                    defaultDate.setTime(props.config.defaultDate.getTime());
+                } else if (typeof props.config.defaultDate === 'number') {
+                    // If it's a number, assume it's years to subtract from current date
+                    defaultDate.setFullYear(defaultDate.getFullYear() - props.config.defaultDate);
+                }
+            }
+
+            const dateValue = props.config.dateObject ? new Date(props.config.dateObject) : defaultDate;
 
             inputElement = <View>
-                {!isDatePickerOpen ? <TouchableWithoutFeedback onPress={() => {
+                {/* Always show the text field that displays the selected date */}
+                <TouchableWithoutFeedback onPress={() => {
                     setIsDatePickerOpen(true);
                 }}>
                     <View style={{ ...inputBorder }}>
@@ -117,21 +131,45 @@ const Input = (props) => {
                         </Text>
                     </View>
                 </TouchableWithoutFeedback>
-                : null }
-                {isDatePickerOpen && (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={dateValue}
-                        mode={'date'}
-                        is24Hour={true}
-                        display="default"
-                        onChange={(event, selectedDate) => {
-                            setIsDatePickerOpen(false);
 
-                            if (selectedDate)
-                                props.inputChangedHandler(selectedDate, props.id);
-                        }}
-                    />
+                {/* Show the DateTimePicker when isDatePickerOpen is true */}
+                {isDatePickerOpen && (
+                    <>
+                        {Platform.OS === 'ios' && (
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
+                                <TouchableOpacity 
+                                    onPress={() => setIsDatePickerOpen(false)}
+                                    style={{ 
+                                        paddingVertical: 8, 
+                                        paddingHorizontal: 12, 
+                                        backgroundColor: ChocoConfig.mainColor || '#007AFF',
+                                        borderRadius: 5
+                                    }}
+                                >
+                                    <Text style={{ color: 'white', fontWeight: '600' }}>Done</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            value={dateValue}
+                            mode={'date'}
+                            is24Hour={true}
+                            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                            onChange={(event, selectedDate) => {
+                                // On Android, the picker is automatically dismissed when a date is selected
+                                // On iOS, we need to keep it open until the user explicitly dismisses it
+                                if (Platform.OS === 'android') {
+                                    setIsDatePickerOpen(false);
+                                }
+
+                                if (selectedDate) {
+                                    props.inputChangedHandler(selectedDate, props.id);
+                                }
+                            }}
+                            style={{ width: '100%' }}
+                        />
+                    </>
                 )}
             </View>
             break;

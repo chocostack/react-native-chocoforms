@@ -1,6 +1,6 @@
 {
   "name": "react-native-chocoforms",
-  "version": "1.1.61",
+  "version": "1.1.62",
   "description": "A package that aims to speed up form creation in react native",
   "main": "typescript/ChocoFormTS.tsx",
   "exports": {
@@ -8,7 +8,9 @@
     "./*": "./typescript/*"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -31,5 +33,29 @@
     "@react-native-community/datetimepicker": "^6.1.3",
     "react-native-modal": "^13.0.1",
     "react-native-select-dropdown": "^3.3.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.14.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
+    "@babel/plugin-transform-flow-strip-types": "^7.14.5",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
+    "@testing-library/react-native": "^7.2.0",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "react": "19.0.0",
+    "react-test-renderer": "19.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.0.0",
+    "react-native": ">=0.59"
+  },
+  "resolutions": {
+    "react": "19.0.0",
+    "react-test-renderer": "19.0.0"
   }
 }

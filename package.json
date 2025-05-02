@@ -1,10 +1,24 @@
 {
   "name": "react-native-chocoforms",
-  "version": "1.1.62",
+  "version": "1.1.63",
   "description": "A package that aims to speed up form creation in react native",
   "main": "typescript/ChocoFormTS.tsx",
   "exports": {
     ".": "./typescript/ChocoFormTS.tsx",
+    "./typescript/models/ChocoForm": "./typescript/models/ChocoForm.ts",
+    "./typescript/models/ChocoControl": "./typescript/models/ChocoControl.ts",
+    "./typescript/models/ChocoValidation": "./typescript/models/ChocoValidation.ts",
+    "./typescript/models/ChocoOption": "./typescript/models/ChocoOption.ts",
+    "./typescript/models/ChocoFormMessage": "./typescript/models/ChocoFormMessage.ts",
+    "./typescript/interfaces/IChocoControl": "./typescript/interfaces/IChocoControl.ts",
+    "./typescript/interfaces/IChocoValidation": "./typescript/interfaces/IChocoValidation.ts",
+    "./typescript/Input/Input": "./typescript/Input/Input.tsx",
+    "./typescript/Input/InputFunctions": "./typescript/Input/InputFunctions.js",
+    "./typescript/Input/TInput": "./typescript/Input/TInput.js",
+    "./typescript/Input/TInputFunctions": "./typescript/Input/TInputFunctions.js",
+    "./typescript/Radio/PrettyCheckbox": "./typescript/Radio/PrettyCheckbox.js",
+    "./typescript/Radio/Radio": "./typescript/Radio/Radio.js",
+    "./ChocoConfig": "./ChocoConfig.ts",
     "./*": "./typescript/*"
   },
   "scripts": {

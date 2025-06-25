@@ -1,8 +1,14 @@
 {
   "name": "react-native-chocoforms",
-  "version": "1.1.63",
+  "version": "1.1.64",
   "description": "A package that aims to speed up form creation in react native",
   "main": "typescript/ChocoFormTS.tsx",
+  "files": [
+    "typescript/**/*",
+    "legacy/**/*",
+    "ChocoConfig.ts",
+    "example/**/*"
+  ],
   "exports": {
     ".": "./typescript/ChocoFormTS.tsx",
     "./typescript/models/ChocoForm": "./typescript/models/ChocoForm.ts",

@@ -1,0 +1,15 @@
+# Development files
+.vs/
+.idea/
+.junie/
+__mocks__/
+
+# Example app dependencies
+example/node_modules/
+
+# Test files
+*.test.js
+*.spec.js
+
+# Build artifacts
+*.log

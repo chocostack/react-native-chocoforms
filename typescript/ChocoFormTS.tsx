@@ -31,18 +31,18 @@ const ChocoFormTS: React.FC<ChocoFormProps> = ({
                                                }) => {
 
     const formElementsArray = new Array<any>();
-    let generalError = <View></View>;
+    let generalError = <Text></Text>;
 
     if (lang)
         ChocoConfig.lang = lang;
 
     if (form.generalError && form.generalError.show) {
-        generalError = (<View style={{
+        generalError = (<Text style={{
             fontSize: 18,
             color: "red",
             marginBottom: 15,
             textAlign: "center"
-        }}>{form.generalError.text}</View>)
+        }}>{form.generalError.text}</Text>)
     }
 
     for (let key in form.controls) {

@@ -4,6 +4,17 @@
 A package that aims to automate form generation in react native. Doing so by passing a 
 single configuration object to the component.
 
+## Example App
+
+This package includes an example Expo app that demonstrates all the input types and validation options available in ChocoFormTS. To run the example app:
+
+1. Install the package: `npm install react-native-chocoforms`
+2. Navigate to the example directory: `cd node_modules/react-native-chocoforms/example`
+3. Install dependencies: `npm install`
+4. Start the Expo server: `npm start`
+
+For more details, see the [Example App README](./example/README.md).
+
 
 
 
